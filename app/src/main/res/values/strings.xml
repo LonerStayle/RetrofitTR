@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">RetroTr</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_saveLikeMoiveTitle">관심있는 영화 저장</string>
+    <string name="dialog_saveLikeMoiveText">관심있는 영화로 추가하시겠습니까?</string>
+    <string name="dialog_saveLikeMoivePositiveText">추가하겠습니다.</string>
+    <string name="dialog_saveLikeMoiveNegativeText">아니요</string>
+    <string name="dialog_deleteBestMoiveTitle">관심있는 영화 삭제</string>
+    <string name="dialog_deleteBestMoiveText">관심 목록에서 삭제하시겠습니까?</string>
+    <string name="dialog_deleteBestMoivePositiveText">삭제하겠습니다.</string>
+    <string name="dialog_deleteBestMoiveNegativeText">아니요</string>
+
+    <string name="toast_bestMovieAddComplete">관심있는 영화에 추가되었습니다.</string>
+    <string name="toast_bestMovieRemove">관심목록에서 삭제되었습니다.</string>
+    <string name="toast_doubleCheckedBestMovie">이미 관심목록에 추가되어 있습니다.</string>
+
+
+</resources>

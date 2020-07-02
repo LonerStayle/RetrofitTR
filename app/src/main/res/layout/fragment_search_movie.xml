@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.retrotr.view.viewmodel.NaverViewModel" />
+
+        <variable
+            name="query"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+
+            android:id="@+id/edittext_query"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@={query}"
+            app:layout_constraintEnd_toStartOf="@id/button_query"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--TODO: vm. 검색함수 연결  -->
+        <Button
+            android:id="@+id/button_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색"
+            android:onClick="@{()->vm.seach(query)}"
+            app:layout_constraintBottom_toBottomOf="@id/edittext_query"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edittext_query"
+            app:layout_constraintTop_toTopOf="@id/edittext_query" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edittext_query"
+            app:spanCount="3"
+            tools:listitem="@layout/viewholder_movie" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
