@@ -50,7 +50,7 @@ class InterestingMovieFragment1 : Fragment() {
 
 
         var doubleCheckedInDeleteMessage = WORKING_DELETE_MESSAGE
-
+        var firstOnCrateView = true
 
         viewModel.myBestMovieList.observe(viewLifecycleOwner, Observer { updated ->
             (recyclerViewMyBestMovieList.adapter as BestMovieAdapter).run {
@@ -59,23 +59,25 @@ class InterestingMovieFragment1 : Fragment() {
                  */
 
                 when {
-                    movieList.any {
+
+                    updated.isNotEmpty() && movieList.any {
                         it.image == updated.last().image && it.title == updated.last().title
                     } && updated.size > movieList.size -> {
 
                         toast(R.string.toast_doubleCheckedBestMovie)
 
-                        viewModel.delete(updated.last())
+                        updated.find { it.id == updated.last().id }?.let { viewModel.delete(it) }
                         doubleCheckedInDeleteMessage = NOT_WORKING_DELETE_MESSAGE
                     }
 
-                    !movieList.any {
+                    updated.isNotEmpty() && !movieList.any {
                         it.image == updated.last().image && it.title == updated.last().title
-                    } && updated.size > movieList.size -> {
+                    } && updated.size > movieList.size && !firstOnCrateView -> {
 
                         toast(R.string.toast_bestMovieAddComplete)
 
                     }
+
                     updated.size < movieList.size &&
                             doubleCheckedInDeleteMessage == WORKING_DELETE_MESSAGE -> {
                         toast(R.string.toast_bestMovieRemove)
@@ -83,10 +85,12 @@ class InterestingMovieFragment1 : Fragment() {
                     }
                     doubleCheckedInDeleteMessage == NOT_WORKING_DELETE_MESSAGE -> {
                         doubleCheckedInDeleteMessage = WORKING_DELETE_MESSAGE
+                        toastTest("${updated.size}")
                     }
                 }
 
                 movieList = updated
+                firstOnCrateView = false
                 notifyDataSetChanged()
             }
         })
@@ -96,7 +100,14 @@ class InterestingMovieFragment1 : Fragment() {
         root
     }
 
+
     private fun toast(message: Int) {
+        Toast.makeText(
+            context, message, Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun toastTest(message: String) {
         Toast.makeText(
             context, message, Toast.LENGTH_SHORT
         ).show()
