@@ -26,9 +26,9 @@ buildscript {
         def retrofit_gson_version = '2.9.0'
         def retrofit_version = '2.9.0'
         def room_version = '2.2.1'
-        def navigation_version = '2.2.2'
+        def navigation_version = '2.3.0'
 
-        libraries = [
+         libraries = [
                 // Kotlin standard library
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
                 "androidx.core:core-ktx:$ktx_version",\
@@ -79,6 +79,7 @@ buildscript {
         ]
 
         androidTestLibraries = [
+
         ]
     }
 

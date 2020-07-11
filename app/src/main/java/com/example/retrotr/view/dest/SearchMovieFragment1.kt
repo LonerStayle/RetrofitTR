@@ -42,54 +42,15 @@ class SearchMovieFragment1 : Fragment() {
         vm = viewModel
         val movieAdapter1 = MovieAdapter1(context = requireContext(), viewModel = viewModel)
 
-        viewModel.apply {
-            myBestMovieList.observe(viewLifecycleOwner, Observer {
-
-
-
-        })
-            seachMovieList.observe(viewLifecycleOwner, Observer {
+        viewModel.seachMovieList.observe(viewLifecycleOwner, Observer {
 
                 movieAdapter1.movieList = it
                 recyclerView.adapter = movieAdapter1
                 movieAdapter1.notifyDataSetChanged()
             })
-        }
 
 
-        /**
-         * FIXME: View의 역활 이 아님, 뷰모델로 옮기자.
-        buttonQuery.setOnClickListener {
-        if (TextUtils.isEmpty(query))
-        return@setOnClickListener
-
-        CoroutineScope(Dispatchers.Main).launch {
-        val movies = NaverApiClient.api.seachMovie(query!!).items
-        movieAdapter1.movieList = movies
-        movieAdapter1.notifyDataSetChanged()
-        }
-
-        }
-         */
         root
     }
 
 }
-
-//
-//        val movieAdapter1 = MovieAdapter1(
-//            context = requireContext(),
-//            viewModel = viewModel)
-//
-//        recyclerView.adapter = movieAdapter1
-//
-//        buttonQuery.setOnClickListener {
-//            if (TextUtils.isEmpty(query))
-//                return@setOnClickListener
-//
-//            CoroutineScope(Dispatchers.Main).launch {
-//                val movies = NaverApiClient.api.seachMovie(query!!).items
-//                movieAdapter1.movieList = movies
-//                movieAdapter1.notifyDataSetChanged()
-//            }
-//        }

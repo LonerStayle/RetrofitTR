@@ -33,17 +33,6 @@ class MainFragment1 :Fragment(){
             }
         }.attach()
 
-//        viewPager.adapter = TabPageAdapter1(this@MainFragment1)
-//
-//         TabLayoutMediator(tabLayout,viewPager){tab, position ->
-//            when(position) {
-//                0 -> tab.text ="A"
-//                1 -> tab.text ="B"
-//            }
-//
-//        }.attach()
-//
-//
         root
     }
 }

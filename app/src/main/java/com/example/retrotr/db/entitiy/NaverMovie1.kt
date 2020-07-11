@@ -8,16 +8,15 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class NaverMovie1(
-//    @PrimaryKey(autoGenerate = true)
-//    val id: Long = 0L,
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val title: String,
-//    val link:String
-    val image: String
-//    val subtitle:String,
-//    val pubDate:String,
-//    val actor:String,
-//    val userRating:String
+    val link:String,
+    val image: String,
+    val subtitle:String,
+    val pubDate:String,
+    val actor:String,
+    val userRating:String
 )
 
 

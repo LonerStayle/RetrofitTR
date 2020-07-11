@@ -28,6 +28,11 @@ class InterestingMovieFragment1 : Fragment() {
         )
     }
 
+    companion object {
+        const val NOT_WORKING_DELETE_MESSAGE = 101010
+        const val WORKING_DELETE_MESSAGE = 0
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,64 +44,63 @@ class InterestingMovieFragment1 : Fragment() {
     ).run {
 
         val bestMovieAdapter = BestMovieAdapter(context = requireContext(), viewModel = viewModel)
-        recyclerViewMyBestMovieList.adapter = bestMovieAdapter
+        recyclerViewMyBestMovieList.adapter = bestMovieAdapter.apply {
 
-        viewModel.myBestMovieList.observe(viewLifecycleOwner, Observer {
-                (recyclerViewMyBestMovieList.adapter as BestMovieAdapter).run {
-                    /**
-                     * TODO: 관심분리 원리, VIEWMODEL 트랜스폼에 처박을것
-                     */
-                    when {
-                        it.isNotEmpty() && movieList.contains(NaverMovie1(it.last().title, it.last().image))
-                                && movieList.size == it.size ->
-                            Toast.makeText(context, R.string.toast_doubleCheckedBestMovie, Toast.LENGTH_SHORT
-                            ).show()
+        }
 
-                        it.isNotEmpty() && !movieList.contains(NaverMovie1(it.last().title, it.last().image))
-                        -> { movieList = it
-                            Toast.makeText(context, R.string.toast_bestMovieAddComplete, Toast.LENGTH_SHORT).show() }
 
-                        else ->
-                            if (movieList.isNotEmpty()) {
-                                movieList = it
-                                Toast.makeText(context, R.string.toast_bestMovieRemove, Toast.LENGTH_SHORT
-                                ).show()
-                            }
+        var doubleCheckedInDeleteMessage = WORKING_DELETE_MESSAGE
+
+
+        viewModel.myBestMovieList.observe(viewLifecycleOwner, Observer { updated ->
+            (recyclerViewMyBestMovieList.adapter as BestMovieAdapter).run {
+                /**
+                 * TODO: 관심분리 원리, VIEWMODEL 트랜스폼에 처박을것
+                 */
+
+                when {
+                    movieList.any {
+                        it.image == updated.last().image && it.title == updated.last().title
+                    } && updated.size > movieList.size -> {
+
+                        toast(R.string.toast_doubleCheckedBestMovie)
+
+                        viewModel.delete(updated.last())
+                        doubleCheckedInDeleteMessage = NOT_WORKING_DELETE_MESSAGE
                     }
-                    notifyDataSetChanged()
+
+                    !movieList.any {
+                        it.image == updated.last().image && it.title == updated.last().title
+                    } && updated.size > movieList.size -> {
+
+                        toast(R.string.toast_bestMovieAddComplete)
+
+                    }
+                    updated.size < movieList.size &&
+                            doubleCheckedInDeleteMessage == WORKING_DELETE_MESSAGE -> {
+                        toast(R.string.toast_bestMovieRemove)
+
+                    }
+                    doubleCheckedInDeleteMessage == NOT_WORKING_DELETE_MESSAGE -> {
+                        doubleCheckedInDeleteMessage = WORKING_DELETE_MESSAGE
+                    }
                 }
-            })
+
+                movieList = updated
+                notifyDataSetChanged()
+            }
+        })
+
 
 
         root
     }
 
+    private fun toast(message: Int) {
+        Toast.makeText(
+            context, message, Toast.LENGTH_SHORT
+        ).show()
+    }
 }
 
-//        val bestMovieAdapter = BestMovieAdapter(context = requireContext(), viewModel = viewModel)
-//        recyclerViewMyBestMovieList.adapter = bestMovieAdapter
-//        viewModel.apply {
-//            myBestMovieList.observe(viewLifecycleOwner, Observer {
-//                (recyclerViewMyBestMovieList.adapter as BestMovieAdapter).run {
-//
-//                    when {
-//                        it.isNotEmpty() && movieList.contains(NaverMovie1(it.last().title, it.last().image))
-//                                && movieList.size == it.size ->
-//                            Toast.makeText(context, R.string.toast_doubleCheckedBestMovie, Toast.LENGTH_SHORT
-//                            ).show()
-//
-//                        it.isNotEmpty() && !movieList.contains(NaverMovie1(it.last().title, it.last().image)) -> {
-//                            movieList = it
-//                            Toast.makeText(context, R.string.toast_bestMovieAddComplete, Toast.LENGTH_SHORT).show()
-//                        }
-//                        else ->
-//                            if (movieList.isNotEmpty()) {
-//                                movieList = it
-//                                Toast.makeText(context, R.string.toast_bestMovieRemove, Toast.LENGTH_SHORT).show()
-//                            }
-//                    }
-//                    notifyDataSetChanged()
-//                }
-//            })
-//        }
-//
+
